@@ -188,10 +188,11 @@ desktop/src-tauri/target/release/bundle/nsis/AISounder_0.1.0_x64-setup.exe
 
 ### 安全和限制
 
-- 不要提交 `runtime/tts-config.json`、平台 Token 或任何 API Key。
-- 当前平台适配器支持 JSON WebSocket 和回调桥；二进制 Protobuf 网关需先由官方 SDK 或独立桥接服务解码。
-- 真实抖音、快手和B站 OAuth 仍取决于开放平台审核结果。
-- 发布前请补充 `LICENSE` 和第三方音频授权证明。
+- **外部模型依赖**：AI 文案通过用户配置的 OpenAI 兼容 `chat/completions` 接口生成；提示词、专场信息和商品描述会发送给对应模型服务商，请评估数据与隐私风险。
+- **语音合成**：音色克隆与合成使用千问 DashScope CosyVoice v3.5 Flash，需要联网和有效 API Key；复刻样本必须是公网可访问的音频 URL，且用户应确认拥有声音授权。
+- **平台接入**：抖音、快手和 B站事件获取受开放平台权限、OAuth 审核、签名规则和频控限制；二进制 Protobuf 网关需先通过官方 SDK 或桥接服务解码。
+- **音频输出**：应用在本地完成文案语音、BGM 混音和 Ducking，并输出 48kHz/16bit 立体声到虚拟声卡；不采集麦克风，也不控制系统或其他应用音频。
+- **内容合规**：AI 话术、昵称互动和克隆音色需人工审核；使用前应确认营销内容、声音授权和 BGM 版权，避免虚假宣传或侵权。
 
 ---
 
@@ -288,12 +289,13 @@ The NSIS installer is generated under:
 desktop/src-tauri/target/release/bundle/nsis/
 ```
 
-### Security Notes
+### Security & Limitations
 
-- Never commit API keys, OAuth tokens, or platform credentials.
-- Voice cloning requires a publicly accessible reference-audio URL.
-- Binary Protobuf gateways must be decoded by an official SDK or bridge before forwarding to `/platform/callback`.
-- Add a `LICENSE` and verify all BGM/cloning rights before public distribution.
+- **External model dependency**: AI scripts are generated through a user-configured OpenAI-compatible `chat/completions` endpoint. Prompts, session details, and product descriptions are sent to that provider, so review its privacy policy before processing sensitive data.
+- **Voice synthesis**: Voice cloning and synthesis use Qianwen DashScope CosyVoice v3.5 Flash and require network access and a valid API key. Cloning references must be publicly accessible audio URLs, and users are responsible for obtaining voice authorization.
+- **Platform access**: Douyin, Kuaishou, and Bilibili event access is subject to open-platform permissions, OAuth review, signing rules, and rate limits. Binary Protobuf gateways require an official SDK or decoding bridge.
+- **Audio output**: The app mixes voice and BGM locally with Ducking, then outputs 48 kHz/16-bit stereo to a virtual audio device. It does not capture a microphone or control audio from other applications.
+- **Content compliance**: AI-generated scripts, nickname interactions, and cloned voices require human review. Users must verify advertising claims, voice permissions, and BGM licensing before going live.
 
 See [docs/platform-integration.md](docs/platform-integration.md) and [docs/packaging.md](docs/packaging.md) for more details.
 
