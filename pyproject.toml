@@ -25,6 +25,14 @@ dev = [
 [project.scripts]
 aisounder-engine = "engine.main:main"
 
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["engine*"]
+exclude = ["assets*", "desktop*", "runtime*", "tests*"]
+
 [tool.pytest.ini_options]
 addopts = "-q"
 pythonpath = ["."]
