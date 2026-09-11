@@ -1,0 +1,31 @@
+[project]
+name = "aisounder-engine"
+version = "0.1.0"
+description = "Python engine for the AI live-streaming assistant"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.9",
+    "numpy>=1.24",
+    "sqlalchemy>=2.0",
+]
+
+[project.optional-dependencies]
+audio = [
+    "sounddevice>=0.4.6",
+    "miniaudio>=1.60",
+]
+db = [
+    "alembic>=1.12",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+aisounder-engine = "engine.main:main"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["."]
+testpaths = ["tests"]
